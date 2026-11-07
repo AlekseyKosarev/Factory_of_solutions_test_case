@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog logicalFilePath="db/changelog.xml" xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.31.xsd">
+ <changeSet id="000-baseline" author="kkd"><tagDatabase tag="baseline"/></changeSet>
+ <changeSet id="001-schema" author="kkd"><sqlFile path="schema.sql" relativeToChangelogFile="true"/><rollback><sqlFile path="schema-rollback.sql" relativeToChangelogFile="true"/></rollback></changeSet>
+ <changeSet id="002-rules" author="kkd"><sqlFile path="rules.sql" relativeToChangelogFile="true"/><rollback><sql>DELETE FROM quality_rule;</sql></rollback></changeSet>
+ <changeSet id="003-demo" author="kkd" context="@demo"><sqlFile path="demo.sql" relativeToChangelogFile="true"/><rollback><sqlFile path="demo-rollback.sql" relativeToChangelogFile="true"/></rollback></changeSet>
+</databaseChangeLog>

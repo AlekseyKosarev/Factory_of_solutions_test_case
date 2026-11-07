@@ -1,0 +1,12 @@
+DELETE FROM quality_issue WHERE run_id IN ('RUN-001','RUN-002');
+DELETE FROM run_key_result WHERE run_id IN ('RUN-001','RUN-002');
+DELETE FROM run_goal WHERE run_id IN ('RUN-001','RUN-002');
+DELETE FROM run_department WHERE run_id IN ('RUN-001','RUN-002');
+DELETE FROM quality_run WHERE id='RUN-002';
+DELETE FROM quality_run WHERE id='RUN-001';
+DELETE FROM key_result WHERE goal_id IN (SELECT 'G'||lpad(n::text,2,'0') FROM generate_series(1,24) n);
+UPDATE goal SET parent_goal_id=NULL WHERE id IN (SELECT 'G'||lpad(n::text,2,'0') FROM generate_series(1,24) n);
+DELETE FROM goal WHERE id IN (SELECT 'G'||lpad(n::text,2,'0') FROM generate_series(1,24) n);
+DELETE FROM department WHERE id='UNIT-B';
+DELETE FROM department WHERE id='UNIT-A';
+DELETE FROM department WHERE id='HQ';

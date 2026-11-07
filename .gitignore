@@ -1,0 +1,43 @@
+# Maven build output and Java runtime artifacts
+target/
+*.class
+*.jar
+*.war
+*.ear
+# The Maven Wrapper bootstrap JAR is required for a clean checkout.
+!/.mvn/wrapper/maven-wrapper.jar
+*.hprof
+hs_err_pid*
+replay_pid*
+
+# Local configuration; keep the documented example.
+.env
+.env.*
+!.env.example
+
+# IDE and editor workspace files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.classpath
+.project
+.settings/
+*.swp
+*.swo
+*~
+
+# Logs and Python caches
+*.log
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# OS metadata and local assistant state
+.DS_Store
+Thumbs.db
+/.codex/
+/.agents/

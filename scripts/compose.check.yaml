@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:17.11-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994
+    environment:
+      POSTGRES_USER: kkd
+      POSTGRES_PASSWORD: isolated_check
+      POSTGRES_DB: kkd
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kkd -d kkd"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  app:
+    build:
+      context: ..
+    environment:
+      JDBC_URL: jdbc:postgresql://db:5432/kkd
+      DB_USER: kkd
+      DB_PASSWORD: isolated_check
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health/readiness"]
+      interval: 2s
+      timeout: 3s
+      retries: 60
+  migrator:
+    profiles: [tools]
+    build:
+      context: ..
+      target: build
+    environment:
+      JDBC_URL: jdbc:postgresql://db:5432/kkd
+      DB_USER: kkd
+      DB_PASSWORD: isolated_check
+    entrypoint: ["./mvnw", "-B"]
+  tests:
+    profiles: [tools]
+    build:
+      context: ..
+      target: build
+    environment:
+      TEST_JDBC_URL: jdbc:postgresql://db:5432/kkd
+      TEST_DB_USER: kkd
+      TEST_DB_PASSWORD: isolated_check
+    entrypoint: ["./mvnw", "-B"]
+    command: ["verify", "-Pintegration"]
+  oracle:
+    profiles: [tools]
+    image: python:3.13-slim@sha256:09a17cad02668ae61ece136b4fd36ac3849e14f670ebedb637ea3e15580525bc
+    volumes:
+      - ./assert-demo.py:/checks/assert-demo.py:ro
+    entrypoint: ["python3", "/checks/assert-demo.py", "http://app:8080"]

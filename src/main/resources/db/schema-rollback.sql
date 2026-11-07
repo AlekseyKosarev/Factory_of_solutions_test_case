@@ -1,0 +1,9 @@
+DROP TABLE quality_issue;
+DROP TABLE run_key_result;
+DROP TABLE run_goal;
+DROP TABLE run_department;
+DROP TABLE quality_run;
+DROP TABLE quality_rule;
+DROP TABLE key_result;
+DROP TABLE goal;
+DROP TABLE department;
